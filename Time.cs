@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SubiectLicenta1
 {
-    class Time()
+    class Time() : IComparable<Time>
     {
-        int ore = 0, minute = 0, secunde = 0;
+        int ore=0, minute=0, secunde=0;
 
         public Time(int ore, int minute, int secunde) : this()
         {
@@ -57,7 +57,7 @@ namespace SubiectLicenta1
             int ore = t1.ore + t2.ore;
             int minute = t1.minute + t2.minute;
             int secunde = t1.secunde + t2.secunde;
-            if (secunde >= 60)
+            if (secunde >= 60) 
             {
                 while (secunde >= 60) {
                     secunde -= 60;
@@ -72,9 +72,25 @@ namespace SubiectLicenta1
                     ore++;
                 }
             }
+            if (ore >= 24)
+            {
+                while (ore >= 24)
+                {
+                    ore -= 24;
+                    //zile++ ????
+                }    
+            }
             return new(ore, minute, secunde);
         }
 
-        public override string ToString() => $"[ore: {ore}, minute: {minute}, secunde: {secunde}]";
+        public override string ToString() => $"{ore:D2}:{minute:D2}:{secunde:D2}";
+
+        public int CompareTo(Time? other)
+        {
+            if (other is null) throw new ArgumentNullException("AAAAAA!!!");
+            int sthis = this.ore * 3600 + this.minute * 60 + this.secunde;
+            int sother = other.ore * 3600 + other.minute * 60 + other.secunde;
+            return sthis.CompareTo(sother);
+        }
     }
 }
